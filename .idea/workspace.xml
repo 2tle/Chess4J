@@ -4,29 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="19baf284-6855-4fdc-9bf9-5e06b6a7918c" name="변경" comment="talsunrin">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/Chess.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/data/Position.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/error/NotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/players/AiPlayer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/players/Player.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/players/UserPlayer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/util/SearchUtil.java" afterDir="false" />
+    <list default="true" id="19baf284-6855-4fdc-9bf9-5e06b6a7918c" name="변경" comment="all">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/Chess.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/obj/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Bishop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/obj/King.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/King.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/obj/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Knight.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/obj/Obj.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Obj.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/obj/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Pawn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/obj/Queen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Queen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/obj/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Rook.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/players/AiPlayer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/players/Player.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/players/UserPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/Chess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/Chess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Pawn.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +61,7 @@
       <workItem from="1666270028632" duration="1093000" />
       <workItem from="1666361643941" duration="7875000" />
       <workItem from="1666480000279" duration="1663000" />
-      <workItem from="1666521284044" duration="1803000" />
+      <workItem from="1666521284044" duration="4145000" />
     </task>
     <task id="LOCAL-00001" summary="talsunrin">
       <created>1666414937508</created>
@@ -88,7 +70,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666414937508</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="all">
+      <created>1666523114825</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1666523114825</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -108,6 +97,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="." />
     <MESSAGE value="talsunrin" />
-    <option name="LAST_COMMIT_MESSAGE" value="talsunrin" />
+    <MESSAGE value="all" />
+    <option name="LAST_COMMIT_MESSAGE" value="all" />
   </component>
 </project>

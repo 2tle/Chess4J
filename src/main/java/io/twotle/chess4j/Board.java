@@ -85,7 +85,12 @@ public class Board {
     }
 
     public static boolean isPositionAvailable(int x, int y) { //true -> null, false -> full
-        return boardObj[x][y] == null;
+        try {
+            return boardObj[x][y] == null;
+        } catch ( Exception e) {
+            return false;
+        }
+
     }
 
     public void move(Player player) {

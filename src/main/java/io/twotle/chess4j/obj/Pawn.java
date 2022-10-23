@@ -63,20 +63,20 @@ public class Pawn extends Obj{
 
         } else if(getColor() == 1) {
             if(getY() == 0) {
-                if(!Board.isPositionAvailable(getX() + 1, getY() + 1)) {
+                if(!Board.isPositionAvailable(getX() - 1, getY() + 1)) {
                     p.add(new Position(getX() - 1, getY() + 1));
                 }
 
             } else if(getY() == 7) {
-                if(!Board.isPositionAvailable(getX() + 1, getY() - 1)) {
+                if(!Board.isPositionAvailable(getX() - 1, getY() - 1)) {
                     p.add(new Position(getX() - 1, getY() - 1));
                 }
 
             } else {
-                if(!Board.isPositionAvailable(getX() + 1, getY() - 1)) {
+                if(!Board.isPositionAvailable(getX() - 1, getY() - 1)) {
                     p.add(new Position(getX() - 1, getY() - 1));
                 }
-                if(!Board.isPositionAvailable(getX() + 1 , getY() + 1)) {
+                if(!Board.isPositionAvailable(getX() - 1 , getY() + 1)) {
                     p.add(new Position(getX() - 1, getY() + 1));
                 }
 
