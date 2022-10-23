@@ -1,4 +1,4 @@
-package io.twotle;
+package io.twotle.chess4j;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -20,17 +20,16 @@ public class Main {
         int mode;
         while(true) {
             mode = scanner.nextInt();
-            if( mode != 0 && mode != 1) {
+            if( mode != 1 && mode != 2) {
                 System.out.println("다시 입력해주세요");
             }
             else break;
         }
-        game.setGameMode(mode);
+        game.setGameMode(mode-1);
 
         /* SET TURN */
 
-        int firstTurn = random.nextInt(2);
-        game.startChess(firstTurn);
+        game.startChess(1);
 
 
     }
