@@ -21,41 +21,41 @@ public class Pawn extends Obj{
         ArrayList<Position> p = new ArrayList<>();
         //2box
         if(getColor() == 0 && getX() == 1) {
-            if(Board.isPositionAvailable(getX() + 2, getY()))
+            if(Board.isPositionAvailable(getX() + 2, getY(), getColor()))
                 p.add(new Position(getX() + 2, getY()));
             //p.add(new Position(getX() + 1, getY()));
         } else if(getColor() == 1 && getX() == 6) {
-            if(Board.isPositionAvailable(getX() - 2, getY()))
+            if(Board.isPositionAvailable(getX() - 2, getY(), getColor()))
                 p.add(new Position(getX() - 2, getY()));
             //p.add(new Position(getX() - 1, getY()));
         }
 
         //1box
         if(getColor() == 0) {
-            if(Board.isPositionAvailable(getX() + 1, getY()))
+            if(Board.isPositionAvailable(getX() + 1, getY(), getColor()))
                 p.add(new Position(getX() + 1, getY()));
         } else if(getColor() == 1) {
-            if(Board.isPositionAvailable(getX() - 1, getY()))
+            if(Board.isPositionAvailable(getX() - 1, getY(), getColor()))
                 p.add(new Position(getX() - 1, getY()));
         }
 
         //killOnly
         if(getColor() == 0) {
             if(getY() == 0) {
-                if(!Board.isPositionAvailable(getX() + 1, getY() + 1)) {
+                if(Board.isPositionAvailable(getX() + 1, getY() + 1 , getColor())) {
                     p.add(new Position(getX() + 1, getY() + 1));
                 }
 
             } else if(getY() == 7) {
-                if(!Board.isPositionAvailable(getX() + 1, getY() - 1)) {
+                if(Board.isPositionAvailable(getX() + 1, getY() - 1  , getColor())) {
                     p.add(new Position(getX() + 1, getY() - 1));
                 }
 
             } else {
-                if(!Board.isPositionAvailable(getX() + 1, getY() - 1)) {
+                if(Board.isPositionAvailable(getX() + 1, getY() - 1 , getColor())) {
                     p.add(new Position(getX() + 1, getY() - 1));
                 }
-                if(!Board.isPositionAvailable(getX() + 1 , getY() + 1)) {
+                if(Board.isPositionAvailable(getX() + 1 , getY() + 1 , getColor())) {
                     p.add(new Position(getX() + 1, getY() + 1));
                 }
 
@@ -63,20 +63,20 @@ public class Pawn extends Obj{
 
         } else if(getColor() == 1) {
             if(getY() == 0) {
-                if(!Board.isPositionAvailable(getX() - 1, getY() + 1)) {
+                if(!Board.isPositionAvailable(getX() - 1, getY() + 1, getColor())) {
                     p.add(new Position(getX() - 1, getY() + 1));
                 }
 
             } else if(getY() == 7) {
-                if(!Board.isPositionAvailable(getX() - 1, getY() - 1)) {
+                if(!Board.isPositionAvailable(getX() - 1, getY() - 1, getColor())) {
                     p.add(new Position(getX() - 1, getY() - 1));
                 }
 
             } else {
-                if(!Board.isPositionAvailable(getX() - 1, getY() - 1)) {
+                if(!Board.isPositionAvailable(getX() - 1, getY() - 1, getColor())) {
                     p.add(new Position(getX() - 1, getY() - 1));
                 }
-                if(!Board.isPositionAvailable(getX() - 1 , getY() + 1)) {
+                if(!Board.isPositionAvailable(getX() - 1 , getY() + 1,getColor())) {
                     p.add(new Position(getX() - 1, getY() + 1));
                 }
 

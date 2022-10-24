@@ -84,9 +84,12 @@ public class Board {
         System.out.println("   \ta\tb\tc\td\te\tf\tg\th");
     }
 
-    public static boolean isPositionAvailable(int x, int y) { //true -> null, false -> full
+    public static boolean isPositionAvailable(int x, int y, int color) { //true -> null, false -> full
         try {
-            return boardObj[x][y] == null;
+            if(boardObj[x][y] == null) return true;
+            else {
+                 return boardObj[x][y].getColor() != color;
+            }
         } catch ( Exception e) {
             return false;
         }
@@ -105,7 +108,7 @@ public class Board {
             System.out.println((i+1)+". ("+p.get(i).getPosX()+","+p.get(i).getPosY()+")");
         }
         int moveIdx = inputLine("Choose Number >") - 1;
-        if(boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()] != null) {
+        if(boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()] != null && boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()].getColor() == player.getColor()) {
             deadObj[player.getColor()].add(boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()]);
             boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()] = null;
         }

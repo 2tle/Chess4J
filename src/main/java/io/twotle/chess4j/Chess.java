@@ -55,6 +55,7 @@ public class Chess {
 
 
 
+
             if(currentPlayer == 1) currentPlayer = 0;
             else currentPlayer = 1;
         }
