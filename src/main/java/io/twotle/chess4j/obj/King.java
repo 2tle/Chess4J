@@ -17,11 +17,11 @@ public class King extends Obj{
     }
 
     @Override
-    public ArrayList<Position> getMoveablePositionList() {
+    public ArrayList<Position> getMoveablePositionList() { // 보류
         ArrayList<Position> p = new ArrayList<>();
         if(getX() == 0) {
             if(getY() == 0) {
-
+                //if(Board.isPositionAvailable())
             } else if(getY() == 7) {
 
             } else {

@@ -53,7 +53,9 @@ public class Chess {
 
             /* 움직임 끝낸 후에 검사 */
 
+            // 프로모션 체크
 
+            // 킹 / 퀸 자리 replace
 
 
             if(currentPlayer == 1) currentPlayer = 0;

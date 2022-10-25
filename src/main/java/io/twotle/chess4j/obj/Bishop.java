@@ -18,7 +18,61 @@ public class Bishop extends Obj{
     @Override
     public ArrayList<Position> getMoveablePositionList() {
         ArrayList<Position> p = new ArrayList<>();
+        //left-up
+        int c = 1;
+        while(Board.isInBoard(getX() -c, getY() - c)) {
+            if(Board.isPositionAvailable(getX() - c, getY() -c,getColor())) {
+                p.add(new Position(getX() - c, getY() - c));
+                if (Board.isOpponent(getX() - c, getY() - c, getColor())) {
+                    break;
+                }
 
+            }
+            else break;
+            c++;
+        }
+
+        //right-up
+        c = 1;
+        while(Board.isInBoard(getX() -c, getY() + c)) {
+            if(Board.isPositionAvailable(getX() - c, getY() + c,getColor())) {
+                p.add(new Position(getX() - c, getY() + c));
+                if (Board.isOpponent(getX() - c, getY() + c, getColor())) {
+                    break;
+                }
+
+            }
+            else break;
+            c++;
+        }
+
+        //left-down
+        c = 1;
+        while(Board.isInBoard(getX() + c, getY() - c)) {
+            if(Board.isPositionAvailable(getX() + c, getY() -c,getColor())) {
+                p.add(new Position(getX() + c, getY() - c));
+                if (Board.isOpponent(getX() + c, getY() - c, getColor())) {
+                    break;
+                }
+
+            }
+            else break;
+            c++;
+        }
+
+        //right-down
+        c = 1;
+        while(Board.isInBoard(getX() + c, getY() + c)) {
+            if(Board.isPositionAvailable(getX() + c, getY() + c,getColor())) {
+                p.add(new Position(getX() + c, getY() + c));
+                if (Board.isOpponent(getX() + c, getY() + c, getColor())) {
+                    break;
+                }
+
+            }
+            else break;
+            c++;
+        }
         return p;
     }
 

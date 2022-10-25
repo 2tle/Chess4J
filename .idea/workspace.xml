@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="19baf284-6855-4fdc-9bf9-5e06b6a7918c" name="변경" comment="finish: pawn move">
+    <list default="true" id="19baf284-6855-4fdc-9bf9-5e06b6a7918c" name="변경" comment=".">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/Chess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/Chess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Bishop.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/King.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/King.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Pawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Knight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Queen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Queen.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +64,8 @@
       <workItem from="1666270028632" duration="1093000" />
       <workItem from="1666361643941" duration="7875000" />
       <workItem from="1666480000279" duration="1663000" />
-      <workItem from="1666521284044" duration="8137000" />
+      <workItem from="1666521284044" duration="8750000" />
+      <workItem from="1666652749487" duration="3575000" />
     </task>
     <task id="LOCAL-00001" summary="talsunrin">
       <created>1666414937508</created>
@@ -85,7 +88,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666529677142</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary=".">
+      <created>1666592856096</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1666592856096</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -103,10 +113,10 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="." />
     <MESSAGE value="talsunrin" />
     <MESSAGE value="all" />
     <MESSAGE value="finish: pawn move" />
-    <option name="LAST_COMMIT_MESSAGE" value="finish: pawn move" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
 </project>

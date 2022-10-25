@@ -13,8 +13,8 @@ public class Board {
     public static Obj[][] boardObj = new Obj[8][8]; // 보드판 데이터 최종 관리
 
 
-    public static ArrayList<Obj>[] moveableObj = new ArrayList[2];
-    public static ArrayList<Obj>[] deadObj = new ArrayList[2];
+    private ArrayList<Obj>[] moveableObj = new ArrayList[2];
+    private ArrayList<Obj>[] deadObj = new ArrayList[2];
 
     private Scanner scanner = new Scanner(System.in);
 
@@ -93,7 +93,15 @@ public class Board {
         } catch ( Exception e) {
             return false;
         }
+    }
 
+    public static boolean isOpponent(int x, int y, int color) {
+        return boardObj[x][y].getColor() != color;
+    }
+
+    public static boolean isInBoard(int x,int y) {
+        if(x >=0 && x<= 7 && y >= 0 && y <= 7) return true;
+        else return false;
     }
 
     public void move(Player player) {
@@ -104,11 +112,15 @@ public class Board {
             throw new NotFoundException(moveObj+" is not found");
         }
         ArrayList<Position> p = moveableObj[player.getColor()].get(idx).getMoveablePositionList();
+        if(p.size() == 0) {
+            throw new NotFoundException("No movable location");
+        }
         for( int i = 0; i< p.size() ; i++) {
             System.out.println((i+1)+". ("+p.get(i).getPosX()+","+p.get(i).getPosY()+")");
         }
         int moveIdx = inputLine("Choose Number >") - 1;
-        if(boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()] != null && boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()].getColor() == player.getColor()) {
+        if(moveIdx < 0 || moveIdx >= p.size()) throw new IndexOutOfBoundsException("No index");
+        if(boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()] != null && boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()].getColor() != player.getColor()) {
             deadObj[player.getColor()].add(boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()]);
             boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()] = null;
         }
@@ -117,6 +129,12 @@ public class Board {
         moveableObj[player.getColor()].get(idx).setY(p.get(moveIdx).getY());
         moveableObj[player.getColor()].get(idx).commit();
     }
+
+    public static boolean isSameClass(Obj a, int x, int y) {
+        return a.getClass().isInstance(boardObj[x][y]);
+    }
+
+
 
     private String inputMoveObj() {
         System.out.print("Choose Piece >");
