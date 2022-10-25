@@ -19,6 +19,10 @@ public class Board {
     private Scanner scanner = new Scanner(System.in);
 
 
+    private boolean[] castlingAvailable = new boolean[2];
+
+
+
 
     public Board() {
         initialize();
@@ -30,6 +34,9 @@ public class Board {
         moveableObj[1] = new ArrayList<>();
         deadObj[0] = new ArrayList<>();
         deadObj[1] = new ArrayList<>();
+
+        castlingAvailable[0] = true;
+        castlingAvailable[1] = true;
         // 블랙말 및 화이트말 삽입
 
         //Pawn
