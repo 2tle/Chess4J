@@ -19,23 +19,7 @@ public class King extends Obj{
     @Override
     public ArrayList<Position> getMoveablePositionList() { // 보류
         ArrayList<Position> p = new ArrayList<>();
-        if(getX() == 0) {
-            if(getY() == 0) {
-                //if(Board.isPositionAvailable())
-            } else if(getY() == 7) {
-
-            } else {
-
-            }
-        } else if(getX() == 7) {
-            if(getY() == 0) {
-
-            } else if(getY() == 7) {
-
-            } else {
-
-            }
-        } else {
+        // 일반이동
             if(Board.isPositionAvailable(getX() + 1, getY() + 1, getColor()))
                 p.add(new Position(getX() + 1 , getY() + 1));
 
@@ -59,7 +43,10 @@ public class King extends Obj{
 
             if(Board.isPositionAvailable(getX() , getY() - 1, getColor()))
                 p.add(new Position(getX() , getY() - 1));
-        }
+        // 캐슬링 체크
+
+        //중복제거
+
         return p;
     }
 

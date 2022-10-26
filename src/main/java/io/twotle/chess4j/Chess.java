@@ -39,6 +39,7 @@ public class Chess {
         this.currentPlayer = turn;
 
         while(true) {
+            this.board.resetFlag();
             this.board.render();
             System.out.println("Current Turn: "+ userList[currentPlayer].getName() +" "+ userList[currentPlayer].getColorToString());
             while(true) {
@@ -55,7 +56,15 @@ public class Chess {
 
             // 프로모션 체크
 
-            // 킹 / 퀸 자리 replace
+            // 캐슬링 체크
+
+            // 무승부 여부
+
+            // 체크메이트 여부
+
+            // 체크 여부
+
+
 
 
             if(currentPlayer == 1) currentPlayer = 0;

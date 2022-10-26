@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="19baf284-6855-4fdc-9bf9-5e06b6a7918c" name="변경" comment="move: bishop, knight, queen">
+    <list default="true" id="19baf284-6855-4fdc-9bf9-5e06b6a7918c" name="변경" comment="castling: init">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/Chess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/Chess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/King.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/King.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Pawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/obj/Rook.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/util/SearchUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/twotle/chess4j/util/SearchUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +65,9 @@
       <workItem from="1666361643941" duration="7875000" />
       <workItem from="1666480000279" duration="1663000" />
       <workItem from="1666521284044" duration="8750000" />
-      <workItem from="1666652749487" duration="3703000" />
+      <workItem from="1666652749487" duration="4733000" />
+      <workItem from="1666748141923" duration="2177000" />
+      <workItem from="1666750556311" duration="1358000" />
     </task>
     <task id="LOCAL-00001" summary="talsunrin">
       <created>1666414937508</created>
@@ -97,7 +104,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666681784783</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="castling: init">
+      <created>1666681889976</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1666681889976</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -120,6 +134,7 @@
     <MESSAGE value="finish: pawn move" />
     <MESSAGE value="." />
     <MESSAGE value="move: bishop, knight, queen" />
-    <option name="LAST_COMMIT_MESSAGE" value="move: bishop, knight, queen" />
+    <MESSAGE value="castling: init" />
+    <option name="LAST_COMMIT_MESSAGE" value="castling: init" />
   </component>
 </project>

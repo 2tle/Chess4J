@@ -18,14 +18,23 @@ public class Board {
 
     private Scanner scanner = new Scanner(System.in);
 
+    private int turn = 0;
 
-    private boolean[] castlingAvailable = new boolean[2];
+    private boolean isPawnMove = false;
+    private boolean isObjDead = false;
 
+
+    private boolean[][] castlingAvailable = new boolean[2][2];
 
 
 
     public Board() {
         initialize();
+    }
+
+    public void resetFlag() {
+        isPawnMove = false;
+        isObjDead = false;
     }
 
     public void initialize() {
@@ -35,8 +44,10 @@ public class Board {
         deadObj[0] = new ArrayList<>();
         deadObj[1] = new ArrayList<>();
 
-        castlingAvailable[0] = true;
-        castlingAvailable[1] = true;
+        castlingAvailable[0][0] = true; // black's left rook castling
+        castlingAvailable[0][1] = true; // black's right rook castling
+        castlingAvailable[1][0] = true; // white's left rook castling
+        castlingAvailable[1][1] = true; // white's right rook castling
         // 블랙말 및 화이트말 삽입
 
         //Pawn
@@ -102,8 +113,30 @@ public class Board {
         }
     }
 
+    public static boolean isPositionAvailableForPawn(int x, int y, int color) {
+        try {
+            return boardObj[x][y] == null;
+        } catch ( Exception e) {
+            return false;
+        }
+    }
+
+    public static boolean isKillAvailableForPawn(int x, int y, int color) {
+        try {
+            //if(boardObj[x][y].getColor() != color) return true;
+            return boardObj[x][y].getColor() != color && boardObj[x][y] != null;
+        } catch(Exception e) {
+            return false;
+        }
+    }
+
     public static boolean isOpponent(int x, int y, int color) {
-        return boardObj[x][y].getColor() != color;
+        try {
+            return boardObj[x][y].getColor() != color;
+        } catch(Exception e) {
+            return false;
+        }
+
     }
 
     public static boolean isInBoard(int x,int y) {
@@ -115,6 +148,8 @@ public class Board {
         printMoveableList(player.getColor());
         String moveObj = inputMoveObj();
         int idx = SearchUtil.findObj(moveObj, moveableObj[player.getColor()]);
+        //if(moveableObj[player.getColor()].get(idx))
+        //if(is)
         if(idx == -1) {
             throw new NotFoundException(moveObj+" is not found");
         }
@@ -129,13 +164,25 @@ public class Board {
         if(moveIdx < 0 || moveIdx >= p.size()) throw new IndexOutOfBoundsException("No index");
         if(boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()] != null && boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()].getColor() != player.getColor()) {
             deadObj[player.getColor()].add(boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()]);
+            int otherColor = (player.getColor() == 0) ? 1 : 0 ;
+            int removeIdx = SearchUtil.findDeadObjByLocation(p.get(moveIdx).getX(), p.get(moveIdx).getY(), moveableObj[otherColor]);
             boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()] = null;
+            moveableObj[otherColor].remove(removeIdx);
+
         }
         moveableObj[player.getColor()].get(idx).clear();
         moveableObj[player.getColor()].get(idx).setX(p.get(moveIdx).getX());
         moveableObj[player.getColor()].get(idx).setY(p.get(moveIdx).getY());
         moveableObj[player.getColor()].get(idx).commit();
+
+        turn++;
     }
+
+//    public static boolean isCastlingAvailable(Obj obj) {
+//
+//    }
+
+
 
     public static boolean isSameClass(Obj a, int x, int y) {
         return a.getClass().isInstance(boardObj[x][y]);
