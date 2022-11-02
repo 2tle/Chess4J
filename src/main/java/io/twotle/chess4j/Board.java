@@ -113,6 +113,50 @@ public class Board {
         }
     }
 
+    public Position isPromotion(int color) {
+        if(color == 0) {
+            //dest is 7?
+            for(int i = 0; i < 8 ; i++) {
+                if(boardObj[7][i] != null && boardObj[7][i] instanceof Pawn) {
+                    return new Position(7,i);
+                }
+            }
+        } else if ( color == 1 ) {
+            //dest is 0?
+            for(int i = 0; i < 8 ; i++) {
+                if(boardObj[0][i] != null && boardObj[0][i] instanceof Pawn) {
+                    return new Position(0,i);
+                }
+            }
+        }
+        throw new NotFoundException("No Promotion");
+    }
+
+    public void doPromotion(Position p, int userChoice, int color) {
+        int idx = SearchUtil.findObjByLocation(p.getX(),p.getY(),this.moveableObj[color]);
+        this.moveableObj[color].remove(idx);
+        Obj obj = null;
+        switch (userChoice) {
+            case 1:
+                //b
+                obj = new Bishop(p.getX(), p.getY(),"Bishop"+turn,color,3,true);
+                break;
+            case 2:
+                //k
+                obj = new Knight(p.getX(), p.getY(),"Bishop"+turn,color,3,true);
+                break;
+            case 3:
+                //r
+                obj = new Rook(p.getX(), p.getY(),"Bishop"+turn,color,3,true);
+                break;
+            case 4:
+                //q
+                obj = new Queen(p.getX(), p.getY(),"Bishop"+turn,color,3,true);
+                break;
+        }
+        this.moveableObj[color].add(obj);
+    }
+
     public static boolean isPositionAvailableForPawn(int x, int y, int color) {
         try {
             return boardObj[x][y] == null;
@@ -165,7 +209,7 @@ public class Board {
         if(boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()] != null && boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()].getColor() != player.getColor()) {
             deadObj[player.getColor()].add(boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()]);
             int otherColor = (player.getColor() == 0) ? 1 : 0 ;
-            int removeIdx = SearchUtil.findDeadObjByLocation(p.get(moveIdx).getX(), p.get(moveIdx).getY(), moveableObj[otherColor]);
+            int removeIdx = SearchUtil.findObjByLocation(p.get(moveIdx).getX(), p.get(moveIdx).getY(), moveableObj[otherColor]);
             boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()] = null;
             moveableObj[otherColor].remove(removeIdx);
 
@@ -181,7 +225,6 @@ public class Board {
 //    public static boolean isCastlingAvailable(Obj obj) {
 //
 //    }
-
 
 
     public static boolean isSameClass(Obj a, int x, int y) {
@@ -200,6 +243,8 @@ public class Board {
         return scanner.nextInt();
 
     }
+
+
 
     private void printMoveableList(int color) {
         moveableObj[color].forEach(item -> System.out.println(item.getName()+"("+item.getPosX()+","+item.getPosY()+")"));    }

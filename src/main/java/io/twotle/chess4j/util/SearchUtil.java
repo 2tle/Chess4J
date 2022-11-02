@@ -18,7 +18,7 @@ public class SearchUtil {
         return index;
     }
 
-    public static int findDeadObjByLocation(int x, int y, ArrayList<Obj> objArrayList) {
+    public static int findObjByLocation(int x, int y, ArrayList<Obj> objArrayList) {
         int index = -1;
         for(int i = 0; i < objArrayList.size(); i++) {
             if(objArrayList.get(i).getX() == x && objArrayList.get(i).getY() == y) index = i;
