@@ -19,6 +19,7 @@ public class Board {
     private Scanner scanner = new Scanner(System.in);
 
     private int turn = 0;
+    private int musungbu = 0;
 
     private boolean isPawnMove = false;
     private boolean isObjDead = false;
@@ -212,6 +213,7 @@ public class Board {
             int removeIdx = SearchUtil.findObjByLocation(p.get(moveIdx).getX(), p.get(moveIdx).getY(), moveableObj[otherColor]);
             boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()] = null;
             moveableObj[otherColor].remove(removeIdx);
+            musungbu =0;
 
         }
         moveableObj[player.getColor()].get(idx).clear();
@@ -219,12 +221,74 @@ public class Board {
         moveableObj[player.getColor()].get(idx).setY(p.get(moveIdx).getY());
         moveableObj[player.getColor()].get(idx).commit();
 
+        if(moveableObj[player.getColor()].get(idx) instanceof Pawn) musungbu = 0;
+
         turn++;
+        musungbu++;
     }
 
 //    public static boolean isCastlingAvailable(Obj obj) {
 //
 //    }
+
+    boolean isSamSamE() {
+        if(moveableObj[0].size() == 1 && moveableObj[1].size() == 1 && moveableObj[0].get(0) instanceof King && moveableObj[1].get(0) instanceof  King) {
+            return true;
+        }
+        if(musungbu >= 50) return true;
+
+        if(moveableObj[0].size() == 1 && moveableObj[0].get(0) instanceof King && (moveableObj[1].size() == 2 && ((moveableObj[1].get(0) instanceof King && moveableObj[1].get(1) instanceof Bishop) || (moveableObj[1].get(0) instanceof Bishop && moveableObj[1].get(1) instanceof King) ))) {
+            return true;
+        }
+
+        if(moveableObj[1].size() == 1 && moveableObj[1].get(0) instanceof King && (moveableObj[0].size() == 2 && ((moveableObj[0].get(0) instanceof King && moveableObj[0].get(1) instanceof Bishop) || (moveableObj[0].get(0) instanceof Bishop && moveableObj[0].get(1) instanceof King) ))) {
+            return true;
+        }
+
+
+        if(moveableObj[0].size() == 1 && moveableObj[0].get(0) instanceof King && (moveableObj[1].size() == 2 && ((moveableObj[1].get(0) instanceof King && moveableObj[1].get(1) instanceof Knight) || (moveableObj[1].get(0) instanceof Knight && moveableObj[1].get(1) instanceof King) ))) {
+            return true;
+        }
+
+        if(moveableObj[1].size() == 1 && moveableObj[1].get(0) instanceof King && (moveableObj[0].size() == 2 && ((moveableObj[0].get(0) instanceof King && moveableObj[0].get(1) instanceof Knight) || (moveableObj[0].get(0) instanceof Knight && moveableObj[0].get(1) instanceof King) ))) {
+            return true;
+        }
+
+        if(moveableObj[0].size() == 2 && moveableObj[1].size() == 2) {
+            if((moveableObj[0].get(0) instanceof King && moveableObj[0].get(1) instanceof Bishop) ) {
+                if(moveableObj[1].get(0) instanceof King && moveableObj[1].get(1) instanceof Bishop) {
+                    return isSameBoardColor(moveableObj[0].get(1).getX(), moveableObj[0].get(1).getY(), moveableObj[1].get(1).getX(), moveableObj[1].get(1).getY());
+                } else if(moveableObj[1].get(0) instanceof Bishop && moveableObj[1].get(1) instanceof King) {
+                    return isSameBoardColor(moveableObj[0].get(1).getX(), moveableObj[0].get(1).getY(), moveableObj[1].get(0).getX(), moveableObj[1].get(0).getY());
+                }
+            } else if((moveableObj[0].get(0) instanceof Bishop && moveableObj[0].get(1) instanceof King) ) {
+                if(moveableObj[1].get(0) instanceof King && moveableObj[1].get(1) instanceof Bishop) {
+                    return isSameBoardColor(moveableObj[0].get(0).getX(), moveableObj[0].get(0).getY(), moveableObj[1].get(1).getX(), moveableObj[1].get(1).getY());
+                } else if(moveableObj[1].get(0) instanceof Bishop && moveableObj[1].get(1) instanceof King) {
+                    return isSameBoardColor(moveableObj[0].get(0).getX(), moveableObj[0].get(0).getY(), moveableObj[1].get(0).getX(), moveableObj[1].get(0).getY());
+                }
+            }
+        }
+
+
+        return false;
+    }
+
+    private int abs(int x) {
+        return (x < 0) ? -1 * x : x;
+    }
+
+    private boolean isSameHolZzak(int x, int y) {
+        return (x % 2 == 0 && y % 2 == 0) || (x % 2 == 1 && y % 2 == 1);
+    }
+
+    private boolean isSameBoardColor(int x1, int y1, int x2, int y2) {
+        if(abs(x2-x1) % 2 ==0 ) {
+            return isSameHolZzak(y1,y2);
+        } else {
+            return !isSameHolZzak(y1,y2);
+        }
+    }
 
 
     public static boolean isSameClass(Obj a, int x, int y) {

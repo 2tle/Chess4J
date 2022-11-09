@@ -70,8 +70,14 @@ public class Chess {
             }
 
             // 캐슬링 체크
+            // 다음시간에 하기
 
             // 무승부 여부
+            boolean isSamSamE = this.board.isSamSamE();
+            if(isSamSamE) {
+                System.out.println("Draw!");
+                break;
+            }
 
             // 체크메이트 여부
 
