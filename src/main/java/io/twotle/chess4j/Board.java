@@ -7,6 +7,7 @@ import io.twotle.chess4j.players.Player;
 import io.twotle.chess4j.util.SearchUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Board {
@@ -25,7 +26,10 @@ public class Board {
     private boolean isObjDead = false;
 
 
-    private boolean[][] castlingAvailable = new boolean[2][2];
+    public static int[][] castlingAvailable = new int[2][2];
+
+    private boolean isPlayer1Checked = false;
+    private boolean isPlayer2Checked = false;
 
 
 
@@ -45,10 +49,10 @@ public class Board {
         deadObj[0] = new ArrayList<>();
         deadObj[1] = new ArrayList<>();
 
-        castlingAvailable[0][0] = true; // black's left rook castling
-        castlingAvailable[0][1] = true; // black's right rook castling
-        castlingAvailable[1][0] = true; // white's left rook castling
-        castlingAvailable[1][1] = true; // white's right rook castling
+        castlingAvailable[0][0] = 0; // black's left rook castling
+        castlingAvailable[0][1] = 0; // black's right rook castling
+        castlingAvailable[1][0] = 0; // white's left rook castling
+        castlingAvailable[1][1] = 0; // white's right rook castling
         // 블랙말 및 화이트말 삽입
 
         //Pawn
@@ -207,6 +211,7 @@ public class Board {
         }
         int moveIdx = inputLine("Choose Number >") - 1;
         if(moveIdx < 0 || moveIdx >= p.size()) throw new IndexOutOfBoundsException("No index");
+
         if(boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()] != null && boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()].getColor() != player.getColor()) {
             deadObj[player.getColor()].add(boardObj[p.get(moveIdx).getX()][p.get(moveIdx).getY()]);
             int otherColor = (player.getColor() == 0) ? 1 : 0 ;
@@ -215,6 +220,38 @@ public class Board {
             moveableObj[otherColor].remove(removeIdx);
             musungbu =0;
 
+        } else if(moveableObj[player.getColor()].get(idx) instanceof King) {
+            if(player.getColor() == 0) {
+                if(p.get(moveIdx).getX() == 0 && p.get(moveIdx).getY() == 1) {
+                    int rook = SearchUtil.findObjByLocation(0,0,moveableObj[0]);
+                    moveableObj[0].get(rook).clear();
+                    moveableObj[0].get(rook).setX(0);
+                    moveableObj[0].get(rook).setY(2);
+                    moveableObj[0].get(rook).commit();
+                } else if(p.get(moveIdx).getX() == 0 && p.get(moveIdx).getY() == 5) {
+                    int rook = SearchUtil.findObjByLocation(0,7,moveableObj[0]);
+                    moveableObj[0].get(rook).clear();
+                    moveableObj[0].get(rook).setX(0);
+                    moveableObj[0].get(rook).setY(4);
+                    moveableObj[0].get(rook).commit();
+                }
+            } else {
+                if(p.get(moveIdx).getX() == 7 && p.get(moveIdx).getY() == 1) {
+                    int rook = SearchUtil.findObjByLocation(7,0,moveableObj[1]);
+                    moveableObj[1].get(rook).clear();
+                    moveableObj[1].get(rook).setX(7);
+                    moveableObj[1].get(rook).setY(2);
+                    moveableObj[1].get(rook).commit();
+
+                } else if(p.get(moveIdx).getX() == 7 && p.get(moveIdx).getY() == 5) {
+                    int rook = SearchUtil.findObjByLocation(0,7,moveableObj[1]);
+                    moveableObj[1].get(rook).clear();
+                    moveableObj[1].get(rook).setX(7);
+                    moveableObj[1].get(rook).setY(4);
+                    moveableObj[1].get(rook).commit();
+                }
+
+            }
         }
         moveableObj[player.getColor()].get(idx).clear();
         moveableObj[player.getColor()].get(idx).setX(p.get(moveIdx).getX());
@@ -306,6 +343,68 @@ public class Board {
         System.out.print(s);
         return scanner.nextInt();
 
+    }
+
+    public void updateCastling() { //up is 0(b), down is 1(w)
+        if(castlingAvailable[0][0] != -1) {
+            try {
+                if(!(boardObj[0][0] instanceof Rook) || !(boardObj[0][3] instanceof King)) {
+                    castlingAvailable[0][0] = -1;
+                }
+                else if(boardObj[0][1] == null && boardObj[0][2] == null && !isPlayer1Checked) castlingAvailable[0][0] = 1;
+                else castlingAvailable[0][0] = 0;
+            } catch(Exception e) {
+                //NPE ERR
+            }
+        }
+        if(castlingAvailable[0][1] != -1) {
+            try {
+                if(!(boardObj[0][7] instanceof Rook) || !(boardObj[0][3] instanceof King)) {
+                    castlingAvailable[0][1] = -1;
+                }
+                else if(boardObj[0][4] == null && boardObj[0][5] == null && boardObj[0][6] == null && !isPlayer1Checked) castlingAvailable[0][1] = 1;
+                else castlingAvailable[0][1] = 0;
+            } catch(Exception e) {
+                //NPE ERR
+            }
+        }
+        if(castlingAvailable[1][0] != -1) {
+            try {
+                if(!(boardObj[7][0] instanceof Rook) || !(boardObj[7][3] instanceof King)) {
+                    castlingAvailable[1][0] = -1;
+                }
+                else if(boardObj[7][1] == null && boardObj[7][2] == null && !isPlayer2Checked) castlingAvailable[1][0] = 1;
+                else castlingAvailable[1][0] = 0;
+            } catch(Exception e) {
+                //NPE ERR
+            }
+        }
+        if(castlingAvailable[1][1] != -1) {
+            try {
+                if(!(boardObj[7][7] instanceof Rook) || !(boardObj[7][3] instanceof King)) {
+                    castlingAvailable[1][1] = -1;
+                }
+                else if(boardObj[7][4] == null && boardObj[7][5] == null && boardObj[7][6] == null && !isPlayer2Checked) castlingAvailable[1][1] = 1;
+                else castlingAvailable[1][1] = 0;
+            } catch(Exception e) {
+                //NPE ERR
+            }
+        }
+
+    }
+
+    public int getObjWeightByPos(int x, int y) {
+        return getObjWeight(boardObj[x][y]);
+    }
+
+    public int getObjWeight(Obj obj) {
+        if(obj instanceof King) return 1000000;
+        else if (obj instanceof Queen) return 9;
+        else if (obj instanceof Rook) return 5;
+        else if (obj instanceof Bishop) return 3;
+        else if (obj instanceof Knight) return 3;
+        else if(obj instanceof Pawn) return 1;
+        else return 0;
     }
 
 

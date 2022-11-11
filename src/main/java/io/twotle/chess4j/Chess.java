@@ -69,8 +69,12 @@ public class Chess {
                 // No Promotion
             }
 
+            // 체크 여부
+
+            // 체크메이트여부
+
             // 캐슬링 체크
-            // 다음시간에 하기
+            this.board.updateCastling();
 
             // 무승부 여부
             boolean isSamSamE = this.board.isSamSamE();
@@ -79,9 +83,7 @@ public class Chess {
                 break;
             }
 
-            // 체크메이트 여부
 
-            // 체크 여부
 
 
 
@@ -98,7 +100,7 @@ public class Chess {
             int input = scanner.nextInt();
             if(input >= 1 && input <= 4) return input;
         }
-
-
     }
+
+
 }
