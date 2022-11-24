@@ -7,6 +7,7 @@ import io.twotle.chess4j.players.Player;
 import io.twotle.chess4j.util.SearchUtil;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
@@ -193,9 +194,9 @@ public class Board {
         else return false;
     }
 
-    public void move(Player player) {
-        printMoveableList(player.getColor());
-        String moveObj = inputMoveObj();
+    public int move(Player player, String moveObj) {
+        //printMoveableList(player.getColor());
+        //String moveObj = inputMoveObj();
         int idx = SearchUtil.findObj(moveObj, moveableObj[player.getColor()]);
         //if(moveableObj[player.getColor()].get(idx))
         //if(is)
@@ -262,6 +263,54 @@ public class Board {
 
         turn++;
         musungbu++;
+
+        //checkCheck(player.getColor(), idx);
+        return idx;
+
+    }
+    public boolean checkCheck(int color, int idx){
+        ArrayList<Position> p = moveableObj[color].get(idx).getMoveablePositionList();
+        Position opponentKing = getOpponentKingPos(color);
+        int pos = SearchUtil.findObjByPos(opponentKing.getX(),opponentKing.getY(), p);
+        if(pos != -1) {
+            if(color == 0) isPlayer2Checked = true;
+            else isPlayer1Checked = true;
+            System.out.println("Check!");
+            //checkCheckmate(color);
+            return true;
+        } else {
+            if(color == 0) isPlayer2Checked = false;
+            else isPlayer1Checked = false;
+            return false;
+        }
+    }
+
+    public boolean checkCheckmate(int color) {
+        HashSet<Position> myMovable = new HashSet<>(getAllMove(color));
+        HashSet<Position> opponentKingMovable = new HashSet<>(getOpponentKingMovable(color));
+        opponentKingMovable.removeAll(myMovable);
+        return opponentKingMovable.size() == 0;
+    }
+
+    public ArrayList<Position> getAllMove(int color ) {
+        ArrayList<Position> p = new ArrayList<>();
+        for(int i = 0; i < moveableObj[color].size() ; i++) {
+            p.addAll(moveableObj[color].get(i).getMoveablePositionList());
+        }
+        return SearchUtil.removeJungbok(p);
+    }
+
+    private Position getOpponentKingPos(int color) {
+        color = ( color == 0) ? 1: 0;
+        Obj o =  moveableObj[color].get(SearchUtil.findObj("King",moveableObj[color]));
+        return new Position(o.getX(), o.getY());
+
+    }
+
+    private ArrayList<Position> getOpponentKingMovable(int color ){
+        color = ( color == 0) ? 1: 0;
+        Obj o =  moveableObj[color].get(SearchUtil.findObj("King",moveableObj[color]));
+        return o.getMoveablePositionList();
     }
 
 //    public static boolean isCastlingAvailable(Obj obj) {
@@ -334,12 +383,12 @@ public class Board {
 
 
 
-    private String inputMoveObj() {
+    public String inputMoveObj() {
         System.out.print("Choose Piece >");
         return scanner.next();
     }
 
-    private int inputLine(String s) {
+    public int inputLine(String s) {
         System.out.print(s);
         return scanner.nextInt();
 
@@ -409,6 +458,7 @@ public class Board {
 
 
 
-    private void printMoveableList(int color) {
-        moveableObj[color].forEach(item -> System.out.println(item.getName()+"("+item.getPosX()+","+item.getPosY()+")"));    }
+    public void printMoveableList(int color) {
+        moveableObj[color].forEach(item -> System.out.println(item.getName()+"("+item.getPosX()+","+item.getPosY()+")"));
+    }
 }

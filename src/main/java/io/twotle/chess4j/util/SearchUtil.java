@@ -4,6 +4,7 @@ import io.twotle.chess4j.data.Position;
 import io.twotle.chess4j.obj.Obj;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class SearchUtil {
@@ -26,16 +27,17 @@ public class SearchUtil {
         return index;
     }
 
-    public static ArrayList<Position> removeJungbok(ArrayList<Position> objArrayList) {
-        for (int i = 0; i < objArrayList.size(); i++) {
-            for (int j = 0; j < objArrayList.size(); j++) {
-                if (i != j && objArrayList.get(j).getX() == objArrayList.get(i).getX() && objArrayList.get(j).getY() == objArrayList.get(i).getY() ) {
-                    objArrayList.remove(j);
-                }
-            }
+    public static int findObjByPos(int x, int y, ArrayList<Position> p) {
+        int index = -1;
+        for(int i = 0; i < p.size(); i++ ) {
+            if(p.get(i).getX() == x && p.get(i).getY() == y) index = i;
         }
-        return objArrayList;
+        return index;
+    }
 
+    public static ArrayList<Position> removeJungbok(ArrayList<Position> objArrayList) {
+        HashSet<Position> p = new HashSet<>(objArrayList);
+        return new ArrayList<>(p);
     }
 
 

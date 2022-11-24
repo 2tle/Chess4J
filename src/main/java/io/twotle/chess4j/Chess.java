@@ -50,46 +50,56 @@ public class Chess {
             System.out.println("Current Turn: "+ userList[currentPlayer].getName() +" "+ userList[currentPlayer].getColorToString());
             while(true) {
                 try {
-                    this.board.move(userList[currentPlayer]);
-                    break;
+                    this.board.printMoveableList(currentPlayer);
+                    String moveObj = this.board.inputMoveObj();
+                    int idx = this.board.move(userList[currentPlayer], moveObj);
+
+                    /* 움직임 끝낸 후에 검사 */
+
+                    // 프로모션 체크
+
+                    try {
+                        Position promotionObj = this.board.isPromotion(this.currentPlayer);
+                        int userChoice = promotionChoice();
+                        this.board.doPromotion(promotionObj, userChoice, this.currentPlayer);
+                    } catch(Exception e) {
+                        // No Promotion
+                    }
+
+                    // 체크 여부 & 체크메이트 검사
+                    boolean isCheck = this.board.checkCheck(currentPlayer,idx);
+                    if(isCheck) {
+                        boolean isCM = this.board.checkCheckmate(currentPlayer);
+                        if(isCM) {
+                            System.out.println("GAME OVER!, Player"+currentPlayer+" WIN!");
+                            break;
+                        }
+                    }
+
+                    // 캐슬링 체크
+                    this.board.updateCastling();
+
+                    // 무승부 여부
+                    boolean isSamSamE = this.board.isSamSamE();
+                    if(isSamSamE) {
+                        System.out.println("Draw!");
+                        break;
+                    }
+
+
+
+
+
+
+                    if(currentPlayer == 1) currentPlayer = 0;
+                    else currentPlayer = 1;
+
+
                 } catch(Exception e) {
                     System.out.println(e.getMessage());
                 }
             }
 
-
-            /* 움직임 끝낸 후에 검사 */
-
-            // 프로모션 체크
-            try {
-                Position promotionObj = this.board.isPromotion(this.currentPlayer);
-                int userChoice = promotionChoice();
-                this.board.doPromotion(promotionObj, userChoice, this.currentPlayer);
-            } catch(Exception e) {
-                // No Promotion
-            }
-
-            // 체크 여부
-
-            // 체크메이트여부
-
-            // 캐슬링 체크
-            this.board.updateCastling();
-
-            // 무승부 여부
-            boolean isSamSamE = this.board.isSamSamE();
-            if(isSamSamE) {
-                System.out.println("Draw!");
-                break;
-            }
-
-
-
-
-
-
-            if(currentPlayer == 1) currentPlayer = 0;
-            else currentPlayer = 1;
         }
     }
 
