@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Knight extends Obj{
     public Knight(int x,int y,String name, int color, int kind, boolean isLive) {
-        super(x, y, name, color, kind, isLive);
+        super(x, y, name, color, kind, isLive, 3);
     }
 
     @Override

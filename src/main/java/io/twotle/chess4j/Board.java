@@ -6,6 +6,7 @@ import io.twotle.chess4j.obj.*;
 import io.twotle.chess4j.players.Player;
 import io.twotle.chess4j.util.SearchUtil;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +23,9 @@ public class Board {
 
     private int turn = 0;
     private int musungbu = 0;
+
+    private int checkX = 0;
+    private int checkY = 0;
 
     private boolean isPawnMove = false;
     private boolean isObjDead = false;
@@ -123,14 +127,14 @@ public class Board {
         if(color == 0) {
             //dest is 7?
             for(int i = 0; i < 8 ; i++) {
-                if(boardObj[7][i] != null && boardObj[7][i] instanceof Pawn) {
+                if(boardObj[7][i] != null && boardObj[7][i] instanceof Pawn&& boardObj[7][i].getColor()==color) {
                     return new Position(7,i);
                 }
             }
         } else if ( color == 1 ) {
             //dest is 0?
             for(int i = 0; i < 8 ; i++) {
-                if(boardObj[0][i] != null && boardObj[0][i] instanceof Pawn) {
+                if(boardObj[0][i] != null && boardObj[0][i] instanceof Pawn&& boardObj[0][i].getColor()==color) {
                     return new Position(0,i);
                 }
             }
@@ -171,6 +175,82 @@ public class Board {
         }
     }
 
+    public Obj getObjByPos(int x, int y, int color) {
+        int idx = SearchUtil.findObjByLocation(x,y,moveableObj[color]);
+        return  moveableObj[color].get(idx);
+    }
+
+    public ArrayList<Position> kingCross(int color) {
+        return moveableObj[color].get(SearchUtil.findObj("King", moveableObj[color])).getMoveablePositionList();
+    }
+
+    public ArrayList<Obj> getAllMovable(int color) {
+        return moveableObj[color];
+    }
+
+    public ArrayList<Position> getAllPos(int color ){
+        ArrayList<Position> p =new ArrayList<>();
+        for(int i =0;i<moveableObj[color].size(); i++) {
+            p.add(new Position(moveableObj[color].get(i).getX(), moveableObj[color].get(i).getY()));
+        }
+        return p;
+    }
+
+    public ArrayList<Obj> getCheckObjectCount(int color) {
+        ArrayList<Obj> o = new ArrayList<>();
+        Obj king = moveableObj[color].get(SearchUtil.findObj("King", moveableObj[color]));
+        ArrayList<Obj> opponentPos = getAllMovable((color == 0) ? 1 : 0);
+        for(int i = 0; i < opponentPos.size(); i++) {
+            int idx = SearchUtil.findObjByPos(king.getX(),king.getY(),opponentPos.get(i).getMoveablePositionList());
+            if(idx != -1) {
+                o.add(opponentPos.get(i));
+            }
+        }
+        return o;
+
+    }
+    public King getKing(int color ){
+        return (King) moveableObj[color].get(SearchUtil.findObj("King", moveableObj[color]));
+    }
+
+    public ArrayList<Position> getCheckingRouteList(Obj checkingObj, King checkedKing) {
+        ArrayList<Position> p = checkingObj.getCheckedObjRoute(checkedKing);
+        return p;
+    }
+
+//    public ArrayList<Position> getCheckObjectMovablePos(int color) {
+//        ArrayList<Position> p = new ArrayList<>();
+//        Obj king = moveableObj[color].get(SearchUtil.findObj("King", moveableObj[color]));
+//        ArrayList<Obj> opponentPos = getAllMovable((color == 0) ? 1 : 0);
+//        for(int i = 0; i < opponentPos.size(); i++) {
+//            int idx = SearchUtil.findObjByPos(king.getX(),king.getY(),opponentPos.get(i).getMoveablePositionList());
+//            //if(idx != -1) p.addAll()
+//        }
+//
+//
+//    }
+
+    public Obj getMinObj(int color) {
+        int max = 1000000;
+        Obj obj = null;
+        for(int i = 0; i < moveableObj[color].size(); i++) {
+            if(moveableObj[color].get(i).getWeight() < max) {
+                obj = moveableObj[color].get(i);
+            }
+        }
+        return obj;
+    }
+    public Obj getMaxObj(int color) {
+        int min = 0;
+        Obj obj = null;
+        for(int i = 0; i < moveableObj[color].size(); i++) {
+            if(moveableObj[color].get(i).getWeight() > min) {
+                obj = moveableObj[color].get(i);
+            }
+        }
+        return obj;
+    }
+
     public static boolean isKillAvailableForPawn(int x, int y, int color) {
         try {
             //if(boardObj[x][y].getColor() != color) return true;
@@ -196,6 +276,18 @@ public class Board {
 
     public int move(Player player, String moveObj) {
         //printMoveableList(player.getColor());
+        if(player.getColor() == 0) {
+            if(isPlayer1Checked && moveObj.equals("King")) {
+                return -1;
+            }
+        } else if(player.getColor() == 1) {
+            if(isPlayer2Checked && moveObj.equals("King")) {
+                return -1;
+            }
+        }
+
+
+
         //String moveObj = inputMoveObj();
         int idx = SearchUtil.findObj(moveObj, moveableObj[player.getColor()]);
         //if(moveableObj[player.getColor()].get(idx))
@@ -268,6 +360,80 @@ public class Board {
         return idx;
 
     }
+
+    public int aiMove(Player player, Obj o, int x, int y) {
+        int idx = SearchUtil.findObjByLocation(o.getX(),o.getY(),moveableObj[player.getColor()]);
+
+
+        if(boardObj[x][y] != null && boardObj[x][y].getColor() != player.getColor()) {
+            deadObj[player.getColor()].add(boardObj[x][y]);
+            int otherColor = (player.getColor() == 0) ? 1 : 0 ;
+            int removeIdx = SearchUtil.findObjByLocation(x, y, moveableObj[otherColor]);
+            boardObj[x][y] = null;
+            moveableObj[otherColor].remove(removeIdx);
+            musungbu =0;
+
+        } else if(moveableObj[player.getColor()].get(idx) instanceof King) {
+            if(player.getColor() == 0) {
+                if(x == 0 && y == 1) {
+                    int rook = SearchUtil.findObjByLocation(0,0,moveableObj[0]);
+                    moveableObj[0].get(rook).clear();
+                    moveableObj[0].get(rook).setX(0);
+                    moveableObj[0].get(rook).setY(2);
+                    moveableObj[0].get(rook).commit();
+                } else if(x == 0 && y == 5) {
+                    int rook = SearchUtil.findObjByLocation(0,7,moveableObj[0]);
+                    moveableObj[0].get(rook).clear();
+                    moveableObj[0].get(rook).setX(0);
+                    moveableObj[0].get(rook).setY(4);
+                    moveableObj[0].get(rook).commit();
+                }
+            } else {
+                if(x == 7 && y == 1) {
+                    int rook = SearchUtil.findObjByLocation(7,0,moveableObj[1]);
+                    moveableObj[1].get(rook).clear();
+                    moveableObj[1].get(rook).setX(7);
+                    moveableObj[1].get(rook).setY(2);
+                    moveableObj[1].get(rook).commit();
+
+                } else if(x == 7 && y == 5) {
+                    int rook = SearchUtil.findObjByLocation(0,7,moveableObj[1]);
+                    moveableObj[1].get(rook).clear();
+                    moveableObj[1].get(rook).setX(7);
+                    moveableObj[1].get(rook).setY(4);
+                    moveableObj[1].get(rook).commit();
+                }
+
+            }
+        }
+        moveableObj[player.getColor()].get(idx).clear();
+        moveableObj[player.getColor()].get(idx).setX(x);
+        moveableObj[player.getColor()].get(idx).setY(y);
+        moveableObj[player.getColor()].get(idx).commit();
+
+        if(moveableObj[player.getColor()].get(idx) instanceof Pawn) musungbu = 0;
+
+        turn++;
+        musungbu++;
+
+
+
+
+        turn++;
+        musungbu++;
+
+        //checkCheck(player.getColor(), idx);
+        return idx;
+    }
+
+    public ArrayList<Position> getOpponentCurrentPos(int color) {
+        color = (color == 0) ? 1: 0;
+        ArrayList<Position> p = new ArrayList<>();
+        for(int i= 0; i< moveableObj[color].size(); i++) {
+            p.add(new Position(moveableObj[color].get(i).getX(), moveableObj[color].get(i).getY()));
+        }
+        return p;
+    }
     public boolean checkCheck(int color, int idx){
         ArrayList<Position> p = moveableObj[color].get(idx).getMoveablePositionList();
         Position opponentKing = getOpponentKingPos(color);
@@ -277,12 +443,23 @@ public class Board {
             else isPlayer1Checked = true;
             System.out.println("Check!");
             //checkCheckmate(color);
+            checkX = p.get(pos).getX();
+            checkY = p.get(pos).getY();
             return true;
         } else {
             if(color == 0) isPlayer2Checked = false;
             else isPlayer1Checked = false;
             return false;
         }
+    }
+    public int checking() {
+        if(isPlayer1Checked) return 0;
+        if(isPlayer2Checked) return 1;
+        return -1;
+    }
+
+    public Position getCheckPos() {
+        return new Position(checkX, checkY);
     }
 
     public boolean checkCheckmate(int color) {
@@ -302,7 +479,9 @@ public class Board {
 
     private Position getOpponentKingPos(int color) {
         color = ( color == 0) ? 1: 0;
-        Obj o =  moveableObj[color].get(SearchUtil.findObj("King",moveableObj[color]));
+        int idx = SearchUtil.findObj("King",moveableObj[color]);
+        System.out.println(idx);
+        Obj o =  moveableObj[color].get(idx);
         return new Position(o.getX(), o.getY());
 
     }

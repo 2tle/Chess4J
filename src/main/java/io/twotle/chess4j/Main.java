@@ -16,11 +16,11 @@ public class Main {
         /* SET GAME MODE */
 
         System.out.println(" < 게임모드 선택 > ");
-        System.out.println("1. AI와 대전\n2. 2인 플레이");
+        System.out.println("1. AI와 대전\n2. 2인 플레이\n3. AI끼리 플레이");
         int mode;
         while(true) {
             mode = scanner.nextInt();
-            if( mode != 1 && mode != 2) {
+            if( mode != 1 && mode != 2 && mode != 3) {
                 System.out.println("다시 입력해주세요");
             }
             else break;

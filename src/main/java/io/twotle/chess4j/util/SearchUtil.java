@@ -6,12 +6,13 @@ import io.twotle.chess4j.obj.Obj;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Random;
 
 public class SearchUtil {
     public static int findObj(String name, ArrayList<Obj> objArrayList) {
         int index = -1;
         for(int x = 0; x < objArrayList.size(); x++) {
-            if(Objects.equals(objArrayList.get(x).getName(), name)) {
+            if(objArrayList.get(x).getName().contains(name)) {
                 index = x;
                 break;
             }
@@ -39,6 +40,33 @@ public class SearchUtil {
         HashSet<Position> p = new HashSet<>(objArrayList);
         return new ArrayList<>(p);
     }
+
+    public static ArrayList<Position> hashRemoveAll(ArrayList<Position> p1, ArrayList<Position> p2 ){
+        HashSet<Position> p1h = new HashSet<>(p1);
+        HashSet<Position> p2h = new HashSet<>(p2);
+        p1h.removeAll(p2h);
+        return new ArrayList<Position>(p1h);
+    }
+
+    public static ArrayList<Position> hashRetainAll(ArrayList<Position> p1, ArrayList<Position> p2) {
+        HashSet<Position> p1h = new HashSet<>(p1);
+        HashSet<Position> p2h = new HashSet<>(p2);
+        p1h.retainAll(p2h);
+        return new ArrayList<>(p1h);
+    }
+
+    public static int getRandomPawn(ArrayList<Obj> p) {
+        ArrayList<Integer> randomInt = new ArrayList<>();
+        for(int i = 0 ; i < p.size(); i ++) {
+            if(p.get(i).getName().contains("Pawn")) randomInt.add(i);
+        }
+        Random r = new Random();
+        return (randomInt.size() > 0) ? r.nextInt(randomInt.size()) : 0;
+
+    }
+
+
+
 
 
 }

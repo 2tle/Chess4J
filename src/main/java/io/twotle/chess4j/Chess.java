@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Chess {
     //FLAG
-    private int GAME_MODE; // 0 is AI, 1 is PvP
+    private int GAME_MODE; // 0 is AI, 1 is PvP, 2 is EvE
     private Player[] userList = new Player[2];
     private int currentPlayer;
 
@@ -34,6 +34,10 @@ public class Chess {
                 userList[0] = new UserPlayer("USER1", 0);
                 userList[1] = new UserPlayer("USER2", 1);
             }
+            case 2 -> {
+                userList[0] = new AiPlayer("AI", 0);
+                userList[1] = new AiPlayer("AI2", 1);
+            }
         }
 
 
@@ -44,24 +48,44 @@ public class Chess {
 
         this.currentPlayer = turn;
 
-        while(true) {
+        //while(true) {
             this.board.resetFlag();
-            this.board.render();
-            System.out.println("Current Turn: "+ userList[currentPlayer].getName() +" "+ userList[currentPlayer].getColorToString());
+
+
             while(true) {
                 try {
-                    this.board.printMoveableList(currentPlayer);
-                    String moveObj = this.board.inputMoveObj();
-                    int idx = this.board.move(userList[currentPlayer], moveObj);
+                    System.out.println("Current Turn: "+ userList[currentPlayer].getName() +" "+ userList[currentPlayer].getColorToString());
+                    this.board.render();
+                    int idx = 0;
+
+                    if(userList[currentPlayer] instanceof UserPlayer) {
+                        this.board.printMoveableList(currentPlayer);
+                        String moveObj = this.board.inputMoveObj();
+                        idx = this.board.move(userList[currentPlayer], moveObj);
+                        if(idx == -1) {
+                            //System.out.println();
+                            stopGame("GAME OVER!, Player"+currentPlayer+" LOSE!");
+                        }
+                    } else if (userList[currentPlayer] instanceof AiPlayer) {
+                        idx = ((AiPlayer) userList[currentPlayer]).move(board);
+                        if(idx == -1) {
+                            //System.out.println();
+                            stopGame("GAME OVER!, Player"+currentPlayer+" LOSE!");
+                        }
+                    }
+
 
                     /* 움직임 끝낸 후에 검사 */
 
                     // 프로모션 체크
 
                     try {
-                        Position promotionObj = this.board.isPromotion(this.currentPlayer);
-                        int userChoice = promotionChoice();
-                        this.board.doPromotion(promotionObj, userChoice, this.currentPlayer);
+                        if(userList[currentPlayer] instanceof UserPlayer) { //bug
+                            Position promotionObj = this.board.isPromotion(this.currentPlayer);
+                            int userChoice = promotionChoice();
+                            this.board.doPromotion(promotionObj, userChoice, this.currentPlayer);
+                        }
+
                     } catch(Exception e) {
                         // No Promotion
                     }
@@ -71,8 +95,8 @@ public class Chess {
                     if(isCheck) {
                         boolean isCM = this.board.checkCheckmate(currentPlayer);
                         if(isCM) {
-                            System.out.println("GAME OVER!, Player"+currentPlayer+" WIN!");
-                            break;
+                            //System.out.println();
+                            stopGame("GAME OVER!, Player"+currentPlayer+" WIN!");
                         }
                     }
 
@@ -82,8 +106,8 @@ public class Chess {
                     // 무승부 여부
                     boolean isSamSamE = this.board.isSamSamE();
                     if(isSamSamE) {
-                        System.out.println("Draw!");
-                        break;
+                        //System.out.println();
+                        stopGame("Draw!");
                     }
 
 
@@ -93,15 +117,18 @@ public class Chess {
 
                     if(currentPlayer == 1) currentPlayer = 0;
                     else currentPlayer = 1;
-
+                    System.out.println("Turn change");
 
                 } catch(Exception e) {
+                    //System.out.println(e.getMessage());
+                    //e.printStackTrace();
                     System.out.println(e.getMessage());
+                    break;
                 }
             }
 
         }
-    }
+    //}
 
     private int promotionChoice() {
         while(true) {
@@ -110,6 +137,10 @@ public class Chess {
             int input = scanner.nextInt();
             if(input >= 1 && input <= 4) return input;
         }
+    }
+
+    private void stopGame(String errName) {
+        //throw new Error(errName);
     }
 
 

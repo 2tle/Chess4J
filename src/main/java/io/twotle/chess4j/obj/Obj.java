@@ -11,18 +11,20 @@ public class Obj {
     private int color;
     private String name;
     private int kind;
+    private int weight;
 
     public Obj() {
 
     }
 
-    public Obj(int x,int y,String name, int color, int kind, boolean isLive) {
+    public Obj(int x,int y,String name, int color, int kind, boolean isLive, int weight) {
         this.x = x;
         this.y = y;
         this.name = name;
         this.color = color;
         this.kind = kind;
         if(isLive) Board.boardObj[x][y] = this;
+        this.weight = weight;
     }
 
     public String toString() {
@@ -48,6 +50,8 @@ public class Obj {
     public int getKind() {
         return kind;
     }
+
+    public int getWeight() { return weight; }
 
     public void setX(int x) {
         this.x = x;
@@ -77,5 +81,9 @@ public class Obj {
         ArrayList<Position> p = new ArrayList<>();
 
         return p;
+    }
+
+    public ArrayList<Position> getCheckedObjRoute(King checked) {
+        return null;
     }
 }
