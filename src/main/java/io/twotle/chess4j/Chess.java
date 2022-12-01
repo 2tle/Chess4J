@@ -43,7 +43,7 @@ public class Chess {
 
     }
 
-    public void startChess(int turn) {
+    public void startChess( int turn   ) {
         this.board = new Board();
 
         this.currentPlayer = turn;
@@ -56,6 +56,15 @@ public class Chess {
                 try {
                     System.out.println("Current Turn: "+ userList[currentPlayer].getName() +" "+ userList[currentPlayer].getColorToString());
                     this.board.render();
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+
+                    }
+
+
+
                     int idx = 0;
 
                     if(userList[currentPlayer] instanceof UserPlayer) {
@@ -63,13 +72,11 @@ public class Chess {
                         String moveObj = this.board.inputMoveObj();
                         idx = this.board.move(userList[currentPlayer], moveObj);
                         if(idx == -1) {
-                            //System.out.println();
                             stopGame("GAME OVER!, Player"+currentPlayer+" LOSE!");
                         }
                     } else if (userList[currentPlayer] instanceof AiPlayer) {
                         idx = ((AiPlayer) userList[currentPlayer]).move(board);
                         if(idx == -1) {
-                            //System.out.println();
                             stopGame("GAME OVER!, Player"+currentPlayer+" LOSE!");
                         }
                     }
@@ -80,10 +87,13 @@ public class Chess {
                     // 프로모션 체크
 
                     try {
-                        if(userList[currentPlayer] instanceof UserPlayer) { //bug
+                        if(userList[currentPlayer] instanceof UserPlayer) {
                             Position promotionObj = this.board.isPromotion(this.currentPlayer);
                             int userChoice = promotionChoice();
                             this.board.doPromotion(promotionObj, userChoice, this.currentPlayer);
+                        } else {
+                            Position promotionObj = this.board.isPromotion(this.currentPlayer);
+                            this.board.doPromotion(promotionObj, 4, this.currentPlayer);
                         }
 
                     } catch(Exception e) {
@@ -95,8 +105,8 @@ public class Chess {
                     if(isCheck) {
                         boolean isCM = this.board.checkCheckmate(currentPlayer);
                         if(isCM) {
-                            //System.out.println();
-                            stopGame("GAME OVER!, Player"+currentPlayer+" WIN!");
+
+                            stopGame("GAME OVER!");
                         }
                     }
 
@@ -106,7 +116,6 @@ public class Chess {
                     // 무승부 여부
                     boolean isSamSamE = this.board.isSamSamE();
                     if(isSamSamE) {
-                        //System.out.println();
                         stopGame("Draw!");
                     }
 
@@ -117,12 +126,9 @@ public class Chess {
 
                     if(currentPlayer == 1) currentPlayer = 0;
                     else currentPlayer = 1;
-                    System.out.println("Turn change");
-
+                    System.out.println("==========================================");
                 } catch(Exception e) {
-                    //System.out.println(e.getMessage());
-                    //e.printStackTrace();
-                    System.out.println(e.getMessage());
+                    stopGame("GAME OVER!");
                     break;
                 }
             }
@@ -140,7 +146,11 @@ public class Chess {
     }
 
     private void stopGame(String errName) {
-        //throw new Error(errName);
+//        throw new Error(errName);
+        System.out.println(errName);
+        System.out.println("Final Board");
+        this.board.render();
+        System.exit(0);
     }
 
 

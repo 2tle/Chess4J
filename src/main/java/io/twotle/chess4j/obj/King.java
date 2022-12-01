@@ -54,7 +54,7 @@ public class King extends Obj{
         }
 
         //중복제거
-        SearchUtil.removeJungbok(p);
+        p = SearchUtil.removeJungbok(p);
         return p;
     }
 

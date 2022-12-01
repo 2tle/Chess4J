@@ -80,20 +80,21 @@ public class AiPlayer extends Player{
     }
 
     public Position getOpponentCheckPos(Board board) {
-        int bck = board.checking();
-        if(getColor() == 0 && bck == 1) {
-            return board.getCheckPos();
-        } else if( getColor() == 1 && bck == 0) {
-            return board.getCheckPos();
-        }
-        return null;
+//        int bck = board.checking();
+//        if(getColor() == 0 && bck == 0) {
+//            return board.getCheckPos();
+//        } else if( getColor() == 1 && bck == 1) {
+//            return board.getCheckPos();
+//        }
+//        return null;
+        return board.getCheckPos();
     }
 
     public boolean isCheck(Board board) {
         int bck = board.checking();
-        if(getColor() == 0 && bck == 1) {
+        if(getColor() == 0 && bck == 0) {
             return true;
-        } else if( getColor() == 1 && bck == 0) {
+        } else if( getColor() == 1 && bck == 1) {
             return true;
         }
         return false;
@@ -186,8 +187,9 @@ public class AiPlayer extends Player{
                 return moveObject(board, finalO, o.getX(), o.getY());
             } else {
                 //완전 초기 상태
+
                 Obj obj = myMovableObj.get(SearchUtil.getRandomPawn(myMovableObj));
-                System.out.println(myMovableObj);
+                //System.out.println(myMovableObj);
                 ArrayList<Position> pl = obj.getMoveablePositionList();
                 Random r = new Random();
                 if(pl.size() > 0) {

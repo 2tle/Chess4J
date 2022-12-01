@@ -5,6 +5,7 @@ import io.twotle.chess4j.data.Position;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Obj {
     private int x,y; // x is a,b,c... | y is 1,2,3...
@@ -86,4 +87,19 @@ public class Obj {
     public ArrayList<Position> getCheckedObjRoute(King checked) {
         return null;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Obj) {
+            Obj o = (Obj) obj;
+            return getName().equals(o.getName());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName());
+    }
+
 }

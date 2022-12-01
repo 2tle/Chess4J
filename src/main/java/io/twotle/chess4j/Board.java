@@ -15,6 +15,7 @@ import java.util.Scanner;
 public class Board {
     public static Obj[][] boardObj = new Obj[8][8]; // 보드판 데이터 최종 관리
 
+    public static ArrayList<Obj>[] checkingObj = new ArrayList[2];
 
     private ArrayList<Obj>[] moveableObj = new ArrayList[2];
     private ArrayList<Obj>[] deadObj = new ArrayList[2];
@@ -47,12 +48,18 @@ public class Board {
         isObjDead = false;
     }
 
+
+
     public void initialize() {
 
         moveableObj[0] = new ArrayList<>();
         moveableObj[1] = new ArrayList<>();
         deadObj[0] = new ArrayList<>();
         deadObj[1] = new ArrayList<>();
+
+
+        checkingObj[0] = new ArrayList<>();
+        checkingObj[1] = new ArrayList<>();
 
         castlingAvailable[0][0] = 0; // black's left rook castling
         castlingAvailable[0][1] = 0; // black's right rook castling
@@ -185,7 +192,13 @@ public class Board {
     }
 
     public ArrayList<Obj> getAllMovable(int color) {
-        return moveableObj[color];
+        ArrayList<Obj> objs = new ArrayList<>();
+        for(int i = 0; i < moveableObj[color].size(); i ++) {
+            if(moveableObj[color].get(i).getMoveablePositionList().size() > 0)
+                objs.add(moveableObj[color].get(i));
+        }
+        //return moveableObj[color];
+        return objs;
     }
 
     public ArrayList<Position> getAllPos(int color ){
@@ -218,17 +231,6 @@ public class Board {
         return p;
     }
 
-//    public ArrayList<Position> getCheckObjectMovablePos(int color) {
-//        ArrayList<Position> p = new ArrayList<>();
-//        Obj king = moveableObj[color].get(SearchUtil.findObj("King", moveableObj[color]));
-//        ArrayList<Obj> opponentPos = getAllMovable((color == 0) ? 1 : 0);
-//        for(int i = 0; i < opponentPos.size(); i++) {
-//            int idx = SearchUtil.findObjByPos(king.getX(),king.getY(),opponentPos.get(i).getMoveablePositionList());
-//            //if(idx != -1) p.addAll()
-//        }
-//
-//
-//    }
 
     public Obj getMinObj(int color) {
         int max = 1000000;
@@ -439,16 +441,28 @@ public class Board {
         Position opponentKing = getOpponentKingPos(color);
         int pos = SearchUtil.findObjByPos(opponentKing.getX(),opponentKing.getY(), p);
         if(pos != -1) {
-            if(color == 0) isPlayer2Checked = true;
-            else isPlayer1Checked = true;
-            System.out.println("Check!");
+            if(color == 0) {
+                isPlayer2Checked = true;
+                checkingObj[color].add(boardObj[p.get(pos).getX()][p.get(pos).getY()]);
+            }
+            else {
+                isPlayer1Checked = true;
+                checkingObj[color].add(boardObj[p.get(pos).getX()][p.get(pos).getY()]);
+            }
+            System.out.println("Check! (Detail: Color "+((color == 0) ? "White" : "Black")+" Checked)");
             //checkCheckmate(color);
             checkX = p.get(pos).getX();
             checkY = p.get(pos).getY();
             return true;
         } else {
-            if(color == 0) isPlayer2Checked = false;
-            else isPlayer1Checked = false;
+            if(color == 0) {
+                isPlayer2Checked = false;
+                checkingObj[color] = new ArrayList<>();
+            }
+            else {
+                isPlayer1Checked = false;
+                checkingObj[color] = new ArrayList<>();
+            }
             return false;
         }
     }
@@ -480,7 +494,6 @@ public class Board {
     private Position getOpponentKingPos(int color) {
         color = ( color == 0) ? 1: 0;
         int idx = SearchUtil.findObj("King",moveableObj[color]);
-        System.out.println(idx);
         Obj o =  moveableObj[color].get(idx);
         return new Position(o.getX(), o.getY());
 
@@ -625,6 +638,7 @@ public class Board {
         return getObjWeight(boardObj[x][y]);
     }
 
+
     public int getObjWeight(Obj obj) {
         if(obj instanceof King) return 1000000;
         else if (obj instanceof Queen) return 9;
@@ -638,6 +652,7 @@ public class Board {
 
 
     public void printMoveableList(int color) {
-        moveableObj[color].forEach(item -> System.out.println(item.getName()+"("+item.getPosX()+","+item.getPosY()+")"));
+        getAllMovable(color).forEach(item -> System.out.println(item.getName()+"("+item.getPosX()+","+item.getPosY()+")"));
+        //moveableObj[color].forEach(item -> System.out.println(item.getName()+"("+item.getPosX()+","+item.getPosY()+")"));
     }
 }

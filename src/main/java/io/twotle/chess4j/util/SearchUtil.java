@@ -1,5 +1,6 @@
 package io.twotle.chess4j.util;
 
+import io.twotle.chess4j.Board;
 import io.twotle.chess4j.data.Position;
 import io.twotle.chess4j.obj.Obj;
 

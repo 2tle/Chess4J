@@ -21,21 +21,21 @@ public class Pawn extends Obj{
         ArrayList<Position> p = new ArrayList<>();
         //2box
         if(getColor() == 0 && getX() == 1) {
-            if(Board.isPositionAvailable(getX() + 2, getY(), getColor())&& !Board.isKillAvailableForPawn(getX(), getY(),getColor()))
+            if(Board.isPositionAvailable(getX() + 2, getY(), getColor())&& !Board.isKillAvailableForPawn(getX() + 2, getY(),getColor()))
                 p.add(new Position(getX() + 2, getY()));
             //p.add(new Position(getX() + 1, getY()));
         } else if(getColor() == 1 && getX() == 6) {
-            if(Board.isPositionAvailable(getX() - 2, getY(), getColor())&& !Board.isKillAvailableForPawn(getX(), getY(),getColor()))
+            if(Board.isPositionAvailable(getX() - 2, getY(), getColor())&& !Board.isKillAvailableForPawn(getX() - 2, getY(),getColor()))
                 p.add(new Position(getX() - 2, getY()));
             //p.add(new Position(getX() - 1, getY()));
         }
 
         //1box
         if(getColor() == 0) {
-            if(Board.isPositionAvailable(getX() + 1, getY(), getColor()) && !Board.isKillAvailableForPawn(getX(), getY(),getColor()))
+            if(Board.isPositionAvailable(getX() + 1, getY(), getColor()) && !Board.isKillAvailableForPawn(getX() + 1, getY(),getColor()))
                 p.add(new Position(getX() + 1, getY()));
         } else if(getColor() == 1) {
-            if(Board.isPositionAvailable(getX() - 1, getY(), getColor()) && !Board.isKillAvailableForPawn(getX(), getY(),getColor()))
+            if(Board.isPositionAvailable(getX() - 1, getY(), getColor()) && !Board.isKillAvailableForPawn(getX() - 1, getY(),getColor()))
                 p.add(new Position(getX() - 1, getY()));
         }
 
